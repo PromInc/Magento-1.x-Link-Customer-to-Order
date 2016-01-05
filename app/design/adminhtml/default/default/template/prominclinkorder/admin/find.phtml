@@ -1,0 +1,49 @@
+<div class="entry-edit">
+
+  <div class="entry-edit-head"><h4>Directions</h4></div>
+  <div id="prominclinkorder-admin-find-by-email" class="fieldset">
+    <ul>
+      <li>Select a store, enter the customer email address and the order#.</li>
+      <li>Click the <b>Preview</b> button.  A confirmation page will be displayed with the order and customer information.</li>
+      <li>Click the <b>Process Link</b> button to link the customer to the order.</li>
+      <li><b>NOTE</b>: All fields are required.</li>
+    </ul>
+  </div>
+
+  <form id="prominclinkorderinput" method="get" action="<?php echo Mage::helper("adminhtml")->getUrl("*/prominclinkorder_prominclinkorderadmin/preview") ?>">
+    <div class="entry-edit-head"><h4>Enter Information</h4></div>
+    <div id="prominclinkorder-admin-store" class="fieldset">
+      <div class="entry-edit-head"><h4>Store</h4></div>
+      <div id="prominclinkorder-admin-store" class="fieldset">
+        <select name="s" id="s">
+          <?php
+          foreach( Mage::app()->getWebsites() as $website ) {
+            foreach( $website->getGroups() as $group ) {
+              foreach( $group->getStores() as $store ) {
+                echo '<option value="'.$store->getId().'"'.( $store->getId() == $this->getStore() ? ' selected' : '' ).'>'.$store->getName().'</option>';
+              }
+            }
+          }
+          ?>
+        </select>
+      </div>
+
+      <div class="entry-edit-head"><h4>Customer Email Address</h4></div>
+      <div id="prominclinkorder-admin-find-by-email" class="fieldset">
+        <input type="e" name="e" id="customer_email" value="<?php echo $this->getEmail() ?>" />
+      </div>
+
+      <div class="entry-edit-head"><h4>Order #</h4></div>
+      <div id="prominclinkorder-admin-find-by-order" class="fieldset">
+        <input type="text" name="o" id="o" value="<?php echo $this->getOrderId() ?>" />
+      </div>
+
+      <div class="entry-edit-head"><h4>Preview:</h4></div>
+      <div id="prominclinkorder-admin-find-by-order" class="fieldset">
+        <p>Preview the order - see the customer and order information together to ensure the correct information</p>
+        <button id="preview" type="button" class="scalable add" onclick="prominclinkorderinput.submit()"><span>Preview Linking of Customer to Order</span></button>
+      </div>
+    </div>
+  </form>
+  <script type="text/javascript">prominclinkorderinput = $('prominclinkorderinput');</script>
+</div>

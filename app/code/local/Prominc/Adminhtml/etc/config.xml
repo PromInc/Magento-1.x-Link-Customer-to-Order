@@ -1,0 +1,20 @@
+<config>
+  <modules>
+    <Prominc_Adminhtml>
+      <version>0.1.1</version>
+      <depends></depends>
+    </Prominc_Adminhtml>
+  </modules>
+
+  <admin>
+    <routers>
+     <adminhtml>
+       <args>
+         <modules>
+           <adminhtml_prominc before="Mage_Adminhtml">Prominc_Adminhtml</adminhtml_prominc>
+         </modules>
+       </args>
+     </adminhtml>
+    </routers>
+  </admin>
+</config>

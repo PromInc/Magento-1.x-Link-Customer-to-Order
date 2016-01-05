@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <menu>
+        <promincparentmenu>
+            <children>
+                <prominclinkorder>
+                    <title>Link Customer to Order</title>
+                    <sort_order>30</sort_order>
+                    <action>adminhtml/prominclinkorder_prominclinkorderadmin</action>
+                </prominclinkorder>
+            </children>
+        </promincparentmenu>
+    </menu>
+
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <!-- Grant Access to Pages/Features of Module -->
+                    <prominclinkorder>
+                        <title>PromInc Link Order</title>
+                        <sort_order>630</sort_order>
+                        <children>
+                            <link_customer_to_order module="prominclinkorder">
+                                <title>Link Order to Customer</title>
+                                <sort_order>0</sort_order>
+                            </link_customer_to_order>
+                        </children>
+                    </prominclinkorder>
+
+                    <!-- Display Menu Options for Module -->
+                    <promincparentmenu translate="title" module="adminhtml">
+                        <children>
+                            <prominclinkorder>
+                                <title>Link Customer to Order</title>
+                                <children>
+                                    <link_customer_to_order module="prominclinkorder">
+                                        <title>Menu Option - Link Customer to Order</title>
+                                        <sort_order>20</sort_order>
+                                    </link_customer_to_order>
+                                </children>
+                            </prominclinkorder>
+                        </children>
+                    </promincparentmenu>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+
+</config>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <modules>
+    <Prominc_Adminhtml>
+      <active>true</active>
+      <codePool>local</codePool>
+    </Prominc_Adminhtml>
+    <Prominc_PromincLinkOrder>
+      <active>true</active>
+      <codePool>local</codePool>
+    </Prominc_PromincLinkOrder>
+  </modules>
+</config>

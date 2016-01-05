@@ -1,0 +1,84 @@
+<config>
+
+    <modules>
+        <Prominc_PromincLinkOrder>
+            <version>1.0.0</version>
+        </Prominc_PromincLinkOrder>
+    </modules>
+
+    <global>
+        <models>
+            <prominclinkorder>
+                <class>Prominc_PromincLinkOrder_Model</class>
+                <resourceModel>prominclinkorder_mysql4</resourceModel>
+            </prominclinkorder>
+            <prominclinkorder_mysql4>
+                <class>Prominc_PromincLinkOrder_Model_Mysql4</class>
+                <entities>
+                    <order>
+                        <table>sales_flat_order</table>
+                    </order>
+                    <ordergrid>
+                        <table>sales_flat_order_grid</table>
+                    </ordergrid>
+                </entities>
+            </prominclinkorder_mysql4>
+        </models>
+        <resources>
+            <prominclinkorder_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </prominclinkorder_write>
+            <prominclinkorder_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </prominclinkorder_read>
+        </resources>
+        <blocks>
+            <prominclinkorder>
+                <class>Prominc_PromincLinkOrder_Block</class>
+            </prominclinkorder>
+        </blocks>
+        <helpers>
+            <prominclinkorder>
+                <class>Prominc_PromincLinkOrder_Helper</class>
+            </prominclinkorder>
+        </helpers>
+    </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <prominclinkorder before="Mage_Adminhtml">Prominc_PromincLinkOrder_Adminhtml</prominclinkorder>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <events>
+            <controller_action_layout_render_before_adminhtml_sales_order_view>
+                <observers>
+                    <prominclinkorder>
+                        <class>prominclinkorder/adminhtml_observer</class>
+                        <method>addButtonLinkToCustomer</method>
+                    </prominclinkorder>
+                </observers>
+            </controller_action_layout_render_before_adminhtml_sales_order_view>
+            <controller_action_layout_render_before_adminhtml_customer_edit>
+                <observers>
+                    <prominclinkorder>
+                        <class>prominclinkorder/adminhtml_observer</class>
+                        <method>addButtonLinkToOrder</method>
+                    </prominclinkorder>
+                </observers>
+            </controller_action_layout_render_before_adminhtml_customer_edit>
+        </events>
+    </adminhtml>
+
+</config>

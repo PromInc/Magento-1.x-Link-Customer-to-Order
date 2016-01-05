@@ -1,0 +1,190 @@
+<?php
+$order = $this->getOrder();
+$customer = $this->getCustomer();
+?>
+
+<div class="content-header">
+  <h3 class="icon-head head-products">Preview Customer to Order Link</h3>
+</div>
+
+<?php if( ! $this->getSaved() ) { ?>
+  <div class="entry-edit">
+    <style>
+    <!--
+      #prominclinkorder-admin-preview-status div.explanation:not(:first-child) { border-top: 1px solid grey; padding-top: 10px; margin-top: 10px; }
+      #prominclinkorder-admin-preview-status .success { color: #217137; font-weight: bold; font-size: 1.1em; }
+    -->
+    </style>
+    <div class="entry-edit-head"><h4>Link Customer to Order</h4></div>
+    <div id="prominclinkorder-admin-preview-status" class="fieldset">
+      <?php $canMakeLink = $this->canMakeLink(); ?>
+
+      <?php if( ! $canMakeLink['canLink'] ) { ?>
+        <div class="error">This customer can not be linked to this order.</div>
+      <?php } else { ?>
+        <div class="success">A link between this customer and order can be made.</div>
+      <?php } ?>
+
+      <?php if( count( $canMakeLink['explanation'] ) > 0 ) { ?>
+        <div>
+          <?php foreach( $canMakeLink['explanation'] as $reason ) { ?>
+            <div class="explanation"><?php echo $reason ?></div>
+          <?php } ?>
+        </div>
+      <?php } ?>
+    </div>
+  </div>
+<?php } ?>
+
+<div class="entry-edit">
+  <div class="entry-edit-head"><h4>Customer</h4></div>
+  <div id="prominclinkorder-admin-find-by-email" class="fieldset">
+    <?php if( $customer->getEntityId() ) { ?>
+      <style>
+      <!--
+        span.newWindow { background-image: url(<?php echo $this->getSkinUrl('images/btn_go.gif', array('_secure'=>true)) ?>); display: inline-block; width: 11px; height: 12px; background-repeat: no-repeat; margin-left: 5px; }
+      -->
+      </style>
+
+      <div class="entry-edit-head"><h4 class="icon-head head-customer-view"><?php echo Mage::helper('customer')->__('Customer Information') ?></h4></div>
+      <fieldset>
+        <table cellspacing="2" class="box-left">
+          <tr>
+            <td><strong><?php echo $this->__('Name:') ?></strong></td>
+            <td><?php echo $customer->getFirstname() ?> <?php echo $customer->getLastname() ?></td>
+          </tr>
+          <tr>
+            <td><strong><?php echo $this->__('Email Address:') ?></strong></td>
+            <td><?php echo $customer->getEmail() ?></td>
+          </tr>
+          <tr>
+            <td><strong><?php echo $this->__('Has Account') ?></strong></td>
+            <td><?php echo ( $customer->getIsGuest() == 1 ? "No" : "Yes" ) ?></td>
+          </tr>
+          <tr>
+            <td><strong><?php echo $this->__('Account Creation Date:') ?></strong></td>
+            <td><?php echo date( 'M j, Y h:i:s A', strtotime( $customer->getCreatedAt() ) ) ?></td>
+          </tr>
+          <tr>
+            <td><strong><?php echo $this->__('Website:') ?></strong></td>
+            <td><?php echo $customer->getCreatedIn() ?></td>
+          </tr>
+          <tr>
+            <td><strong><?php echo $this->__('Customer Group:') ?></strong></td>
+            <td><?php echo $this->getGroupName( $customer->getGroupId() ) ?></td>
+          </tr>
+          <tr>
+            <td><strong><?php echo $this->__('More Information:') ?></strong></td>
+            <td><a href="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/customer/edit/id/'.$customer->getEntityId()) ?>" target="_blank">View Customer<span class="newWindow"></span></a></td>
+          </tr>
+        </table>
+        <address class="box-right">
+          <?php echo $this->getAddressHtml( $customer->getDefaultShipping(), 'shipping' ) ?>
+          <?php echo $this->getAddressHtml( $customer->getDefaultBilling(), 'billing' ) ?>
+        </address>
+      </fieldset>
+    <?php } else { ?>
+      <p class="error">No customer found for <?php echo $this->getStoreName($this->getStore()) ?> with email address of <?php echo $this->getEmail() ?>.</p>
+    <?php } ?>
+  </div>
+</div>
+
+<div class="entry-edit">
+  <div class="entry-edit-head"><h4>Order</h4></div>
+  <div class="fieldset">
+    <?php if( $order->getEntityId() ) { ?>
+      <div class="fieldset">
+        <table cellspacing="2" class="box-left">
+          <tr>
+            <td><strong><?php echo $this->__('Order Information:') ?></strong></td>
+            <td><a href="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/sales_order/view/order_id/'.$order->getEntityId()) ?>" target="_blank">View Order<span class="newWindow"></span></a></td>
+          </tr>
+        </table>
+        <div class="clear"></div>
+      </div>
+
+      <div class="entry-edit-head"><h4>Personal Information</h4></div>
+        <div class="fieldset">
+          <table cellspacing="2" class="box-left">
+            <tr>
+              <td><strong>Customer Name</strong></td>
+              <td><?php echo $order->getCustomerFirstname() ?> <?php echo $order->getCustomerLastname() ?></td>
+            </tr>
+            <tr>
+              <td><strong>Email Address</strong></td>
+              <td><?php echo $order->getCustomerEmail() ?></td>
+            </tr>
+            <tr>
+              <td><strong>Order ID</strong></td>
+              <td><?php echo $order->getIncrementId() ?></td>
+            </tr>
+            <tr>
+              <td><strong>Shipping Method</strong></td>
+              <td><?php echo ucwords( $order->getShippingDescription() ) ?></td>
+            </tr>
+          </table>
+          <div class="clear"></div>
+        </div>
+
+        <div class="entry-edit-head"><h4>Store Information</h4></div>
+        <div class="fieldset">
+          <table cellspacing="2" class="box-left">
+            <tr>
+              <td><strong>Store Id</strong></td>
+              <td><?php echo $order->getStoreId() ?></td>
+            </tr>
+            <tr>
+              <td><strong>Store Name</strong></td>
+              <td><?php echo str_replace( "\n", "<br>", $order->getStoreName() ) ?></td>
+            </tr>
+          </table>
+        <div class="clear"></div>
+      </div>
+
+      <div class="entry-edit-head">
+        <h4 class="icon-head head-products"><?php echo Mage::helper('sales')->__('Items Ordered') ?></h4>
+      </div>
+      <div class="grid np">
+        <div class="hor-scroll">
+          <table cellspacing="0" class="data order-tables">
+            <col />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <thead>
+              <tr class="headings">
+                <th><?php echo $this->helper('sales')->__('Product') ?></th>
+                <th><span class="nobr"><?php echo $this->helper('sales')->__('Item Status') ?></span></th>
+                <th><span class="nobr"><?php echo $this->helper('sales')->__('Original Price') ?></span></th>
+                <th><?php echo $this->helper('sales')->__('Price') ?></th>
+                <th class="a-center"><?php echo $this->helper('sales')->__('Qty') ?></th>
+                <th><?php echo $this->helper('sales')->__('Subtotal') ?></th>
+                <th><span class="nobr"><?php echo $this->helper('sales')->__('Tax Amount') ?></span></th>
+                <th><span class="nobr"><?php echo $this->helper('sales')->__('Tax Percent') ?></span></th>
+                <th><span class="nobr"><?php echo $this->helper('sales')->__('Discount Amount') ?></span></th>
+                <th class="last"><span class="nobr"><?php echo $this->helper('sales')->__('Row Total') ?></span></th>
+              </tr>
+            </thead>
+            <?php $_items = $this->getItemsCollection(); ?>
+            <?php $i=0;foreach ($_items as $_item):?>
+              <?php if ($_item->getParentItem()) continue; else $i++;?>
+              <tbody class="<?php echo $i%2?'even':'odd' ?>">
+                <?php echo $this->getItemHtml($_item) ?>
+                <?php echo $this->getItemExtraInfoHtml($_item) ?>
+              </tbody>
+            <?php endforeach; ?>
+          </table>
+        </div>
+      <?php } else { ?>
+        <p class="error">No order found for order number <?php echo $this->getOrderId() ?>.</p>
+      <?php } ?>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
