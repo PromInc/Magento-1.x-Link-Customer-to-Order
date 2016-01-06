@@ -35,3 +35,6 @@ Multiple entry methods
 - Clear the Magento Cache
 
 **As always, it is best practice to test this extension on a development server prior to adding to your live site to ensure there are no errors or conflicts.  This code is provided for free and the author of this code is not responsible or liable for any negative effects that may be incurred by using this code for your own purposes.**
+
+## Behind the scenes
+While the majority of the code in this extension is for the user interface and error checking, the actual action of linking a customer to an order is a few simple lines.  This blog posts explains the background of what the code is ultimatley doing. [Magento – Associate order with user account when customer checked out as guest](http://promincproductions.com/blog/magento-associate-order-user-account-customer-checked-guest/)
