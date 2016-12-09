@@ -29,6 +29,7 @@ Multiple entry methods
 
 ## Developed and tested on
 - Magento 1.6.2
+- Magento 1.14.2.0
 
 ## Installation
 - Install the files in the *app* directory into their respective directories on your server.
