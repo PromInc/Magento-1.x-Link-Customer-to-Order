@@ -1,5 +1,5 @@
 <?php
-class Prominc_PromincLinkOrder_Model_LpLinkOrder extends Mage_Core_Model_Abstract
+class Prominc_PromincLinkOrder_Model_PromincLinkOrder extends Mage_Core_Model_Abstract
 {
 
 
