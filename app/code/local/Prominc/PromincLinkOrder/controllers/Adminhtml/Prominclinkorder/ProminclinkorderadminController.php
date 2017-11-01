@@ -77,7 +77,9 @@ class Prominc_PromincLinkOrder_Adminhtml_Prominclinkorder_ProminclinkorderadminC
     $oid     = $this->getRequest()->getParam('oid');
     $email     = $this->getRequest()->getParam('c_e');
 
-    $tablesToSave = 2;
+    $customer = Mage::getModel('customer/customer')->load($cid);
+    
+    $tablesToSave = 3;
     $tablesSaved = 0;
 
     /* Update Data to table: sales_flat_order */
@@ -85,6 +87,9 @@ class Prominc_PromincLinkOrder_Adminhtml_Prominclinkorder_ProminclinkorderadminC
     $model_order->load( $oid );
     $model_order->setCustomerId( $cid );
     $model_order->setCustomerIsGuest( 0 );
+    if( $customer->getGroupId() ) {
+        $model_order->setCustomerGroupId( $customer->getGroupId() );
+    }
     if( $model_order->save() ) { $tablesSaved += 1; }
 
     /* Update Data to table: sales_flat_order_grid */
@@ -92,6 +97,12 @@ class Prominc_PromincLinkOrder_Adminhtml_Prominclinkorder_ProminclinkorderadminC
     $model_orderGrid->load( $oid );
     $model_orderGrid->setCustomerId( $cid );
     if( $model_orderGrid->save() ) { $tablesSaved += 1; }
+
+    /* Update Data to table: sales_flat_order_address */
+    $model_orderAddress  = Mage::getModel('prominclinkorder/PromincLinkOrderAddress');
+    $model_orderAddress->load( $oid );
+    $model_orderAddress->setCustomerId( $cid );
+    if( $model_orderAddress->save() ) { $tablesSaved += 1; }
 
     /* Render messages */
     if( $tablesSaved == $tablesToSave ) {
